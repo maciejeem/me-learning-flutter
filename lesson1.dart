@@ -13,34 +13,44 @@ import 'dart:core';
   */
 
 void main() {
-  var name = 'Michał';
-  var age = 32;
-  var now = DateTime.now();
-  var yearBorn = DateTime(now.year - age, now.month, now.day).year;
-  var person = Person(name, yearBorn.toString(), 'Spikey');
+  String name = 'Maciej';
+  int age = 25;
+  int yearBorn = DateTime.now().subtractYears(age).year;
+  Person person = Person(name, yearBorn.toString());
 
   print('$name new username: ${person.generateUsername()}');
 }
 
 class Person {
-  Person(this.name, this.yearBorn, this.dogName);
+  Person(this.name, this.yearBorn, [this.dogName = ""]);
   final String name;
   final String yearBorn;
   final String dogName;
 
-  String generateUsername() {
-    return getFirstTwo(name) + getLastTwo(dogName) + getLastTwo(yearBorn);
-  }
+  String generateUsername() =>
+      getFirstTwo(name) + getLastTwo(dogName) + getLastTwo(yearBorn);
 }
 
-String getLastTwo(String string) {
+String getLastTwo(String? string) {
+  if (string == null) {
+    return "";
+  }
   var length = string.length;
   if (length < 2) return '';
   return string.substring(string.length - 2);
 }
 
-String getFirstTwo(String string) {
+String getFirstTwo(String? string) {
+  if (string == null) {
+    return "";
+  }
   var length = string.length;
   if (length < 2) return '';
   return string.substring(0, 2);
+}
+
+extension CalculatingDates on DateTime {
+  DateTime subtractYears(int years) {
+    return DateTime(this.year - years, this.month, this.day);
+  }
 }
